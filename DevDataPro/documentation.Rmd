@@ -1,0 +1,68 @@
+---
+title: "K-means clustering of Animal's milk"
+author: "forhad"
+date: "1/5/2020"
+output: 
+  slidy_presentation: default
+  html_document:
+    number_sections: yes
+    toc: yes
+  ioslides_presentation: default
+mode: selfcontained
+job: Reproducible Pitch Presentation
+highlighter: highlight.js
+widgets: bootstrap
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+## Introduction
+
+- This is a very simple demonstration of k-means clustering under shiny.
+- Dataset is all.mammals.milk.1956 from R package 'cluster.datasets'.
+- The dataset contains a list of animals and the constituents of their milk.
+- The dataset have 25 observations on 6 variables.
+- Data Source: *http://people.sc.fsu.edu/~jburkardt/datasets/spaeth2/spaeth2.html*
+
+> Here is a look of the dataset:
+
+```{r}
+library(cluster.datasets)
+data(all.mammals.milk.1956)
+head(all.mammals.milk.1956, 3)
+```
+
+## Code ui 
+
+- It has a headerPanel for the title
+- It has a sidebarPanel with numericInput for the Cluster Count (range from 1 to 9)
+- sidebarPanel outputs k-Means calculated centroids coordinates.
+- mainPanel plots all points with the centroids shown in real time right after the Cluster Count changes.
+- Code for getting the Cluster Count Input :
+
+```{r ui, eval=FALSE, echo=TRUE}
+numericInput('clusters', 'Cluster count', 1, min = 1, max = 9)
+```
+
+## Code server
+
+- It loads the R package “cluster.datasets”
+- Then import the dataset “all.mammals.milk.1956”
+- It gets the ui Cluster Count input-“cluster”
+- Then calculate the centroids coordinates using kmeans function
+- Finally it render the plots as well as the centroid coordinates table for the ui to display
+- Code for the kmeans evaluation:
+
+ ```{r server, eval = FALSE, echo = TRUE}
+ clusters <- reactive({
+        kmeans(selectedData(), input$clusters)
+ ```
+
+ 
+## Published on Shiny
+ 
+  ![](C:/Users/forhad/Desktop/Coursera_Git/DevelopingDataProduct/DevDataPro/kmeans_clus3.png)
